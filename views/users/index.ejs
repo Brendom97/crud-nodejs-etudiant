@@ -35,6 +35,7 @@
                     <th scope="col">Prénom</th>
                     <th scope="col">Email</th>
 					<th scope="col">Téléphone</th>
+                    <th scope="col">Classe</th>
                     <th width="200px">Action</th>
                 </tr>
             </thead>
@@ -46,6 +47,7 @@
                     <td><%= data[i].prenom%></td>
                     <td><%= data[i].email%></td>
 					<td><%= data[i].telephone%></td>
+                    <td><%= data[i].classe%></td>
                     <td>
                         <a class="btn btn-success edit" href="../users/edit/<%=data[i].id%>">Edit</a>
                         <a class="btn btn-danger delete" onclick="return alert('Are you sure want to delete this record?')" href="../users/delete/<%=data[i].id%>">Delete</a>

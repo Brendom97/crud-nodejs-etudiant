@@ -23,7 +23,8 @@ router.get('/add', function(req, res, next) {
         nom: '',
         prenom: '',
         email: '',
-        telephone:''
+        telephone:'',
+        classe:''
     })
 })
 
@@ -34,9 +35,10 @@ router.post('/add', function(req, res, next) {
     let prenom = req.body.prenom;
     let email = req.body.email;
     let telephone = req.body.telephone;
+    let classe = req.body.classe;
     let errors = false;
 
-    if(nom.length === 0 || prenom.length === 0 || email.length === 0 || telephone === 0) {
+    if(nom.length === 0 || prenom.length === 0 || email.length === 0 || telephone === 0 || classe.length === 0) {
         errors = true;
 
         // set flash message
@@ -46,7 +48,8 @@ router.post('/add', function(req, res, next) {
             nom: nom,
             prenom: prenom,
             email: email,
-            telephone:telephone
+            telephone:telephone,
+            classe:classe
         })
     }
 
@@ -57,7 +60,8 @@ router.post('/add', function(req, res, next) {
             nom: nom,
             prenom: prenom,
             email: email,
-            telephone:telephone
+            telephone:telephone,
+            classe:classe
         }
 
         // insert query
@@ -71,7 +75,8 @@ router.post('/add', function(req, res, next) {
                     nom: form_data.nom,
                     prenom: form_data.prenom,
                     email: form_data.email,
-                    telephone:form_data.telephone
+                    telephone:form_data.telephone,
+                    classe:form_data.classe
                 })
             } else {
                 req.flash('success', 'Etudiant successfully added');
@@ -86,7 +91,7 @@ router.get('/edit/(:id)', function(req, res, next) {
 
     let id = req.params.id;
 
-    dbConn.query('SELECT * FROM users WHERE id = ' + id, function(err, rows, fields) {
+    dbConn.query('SELECT * FROM etudiants WHERE id = ' + id, function(err, rows, fields) {
         if(err) throw err
 
         // if user not found
@@ -103,7 +108,8 @@ router.get('/edit/(:id)', function(req, res, next) {
                 nom: rows[0].nom,
                 prenom: rows[0].prenom,
                 email: rows[0].email,
-                telephone: rows[0].telephone
+                telephone: rows[0].telephone,
+                classe: rows[0].classe
             })
         }
     })
@@ -117,20 +123,22 @@ router.post('/update/:id', function(req, res, next) {
     let prenom = req.body.prenom;
     let email = req.body.email;
     let telephone = req.body.telephone;
+    let classe = req.body.classe;
     let errors = false;
 
-    if(nom.length === 0 || prenom.length === 0 || email.length === 0 || telephone.length === 0) {
+    if(nom.length === 0 || prenom.length === 0 || email.length === 0 || telephone.length === 0 || classe.length === 0) {
         errors = true;
 
         // set flash message
-        req.flash('error', "Please enter name and email and position");
+        req.flash('error', "Please enter nom, prenom, and email and telephone and classe");
         // render to add.ejs with flash message
         res.render('users/edit', {
             id: req.params.id,
             nom: nom,
             prenom: prenom,
             email: email,
-            telephone:telephone
+            telephone:telephone,
+            classe:classe
         })
     }
 
@@ -141,7 +149,8 @@ router.post('/update/:id', function(req, res, next) {
             nom: nom,
             prenom: prenom,
             email: email,
-            telephone:telephone
+            telephone:telephone,
+            classe:classe
         }
         // update query
         dbConn.query('UPDATE etudiants SET ? WHERE id = ' + id, form_data, function(err, result) {
@@ -155,7 +164,8 @@ router.post('/update/:id', function(req, res, next) {
                     nom: form_data.nom,
                     prenom: form_data.prenom,
                     email: form_data.email,
-                    telephone: form_data.telephone
+                    telephone: form_data.telephone,
+                    classe:form_data.classe
                 })
             } else {
                 req.flash('success', 'Etudiant successfully updated');
